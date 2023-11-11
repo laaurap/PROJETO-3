@@ -5,6 +5,7 @@ struct lista lt[100];
 
 int main() {
      int  auxBool = 0, opcao, tam;
+        int index_atualiza;
        tam = tamanho(lt); // A VARIÁVEL 'tam' ARMAZENA O TAMANHO (NÚMERO DE TAREFAS) ATUAL DA LISTA.
 
     printf("LAURA DE SOUZA PARENTE - RA:22.123.033-7\n--- LISTA DE TAREFAS ---\n");
@@ -23,4 +24,18 @@ int main() {
                 printf("\n--- LISTAR TAREFAS ---\n"); // LISTA AS TAREFAS QUE TEM
                 listaTarefas(tam, lt);
                 break;
+             case(3):
+                printf("\n--- DELETAR TAREFA ---\n");
+                int posTarefa;
+                printf("DIGITE A POSICAO DA TAREFA QUE DESEJA DELETAR: ");
+                scanf("%d", &posTarefa);
+                deletaTarefa(&tam, lt, posTarefa);
+                break;
+             case 4:
+                printf("\n--- ATUALIZAR TAREFA ---\n");
+                printf("POSICAO DA TAREFA A SER ALTERADA: ");
+                scanf("%d", &index_atualiza);
+                atualizaTarefa(tam, lt, index_atualiza);
+                break;
+        
 }
