@@ -27,7 +27,7 @@ void criaTarefa(struct lista *lt) { // FUNÇÃO UTILIZADA PARA CRIAR UMA NOVA TA
     scanf(" %99[^\n]", lt->descricao);
 }
 
-void listaTarefas(int tam, struct lista *lt){ // FUNÇÃO UTILIZADA PARA LISTAR AS TAREFAS
+void listaTarefas(int tam, struct lista *lt){ // FUNÇÃO UTILIZADA PARA LISTAR AS TAREFAS 
     for(int i = 0; i < tam; i++){
         printf("TAREFA %d\n", i+1);
         printf("PRIORIDADE: %d\n",lt[i].prioridade);
@@ -97,7 +97,31 @@ void deletaTarefa(int *tam, struct lista *lt, int posTarefa) { // FUNÇÃO PARA 
     printf("A TAREFA %d FOI DELETADA COM SUCESSO.\n", posTarefa);
 }
 
-void salvaTexto(int tam, struct lista *lista, int prioridade) {
+void filtraPrioridade(int tam, struct lista *lista, int prioridade) { //ESSA FUNÇÃO FILTRA E IMPRIME AS TAREFAS DE UMA LISTA DE ACORDO COM SUA PRIORIDADE
+      for(int i = 0; i < tam; i++){
+            if(prioridade==lista[i].prioridade){
+                printf("TAREFA %d\n", i+1);
+                printf("PRIORIDADE: %d\n",lista[i].prioridade);
+                printf("CATEGORIA: %s\n",lista[i].categoria );
+                printf("DESCRICAO: %s\n",lista[i].descricao);
+                printf("ESTADO: %s\n\n", status[lista[i].status]);
+            }
+      }
+}
+
+void filtraEstado(int tam, struct lista *lista, int estado_indice){ //ESSA FUNÇÃO FILTRA E IMPRIME AS TAREFAS DE UMA LISTA DE ACORDO COM SEU ESTADO
+    for(int i = 0; i < tam; i++){
+            if(estado_indice==lista[i].status){
+                printf("TAREFA %d\n", i+1);
+                printf("PRIORIDADE: %d\n",lista[i].prioridade);
+                printf("CATEGORIA: %s\n",lista[i].categoria );
+                printf("DESCRICAO: %s\n",lista[i].descricao);
+                printf("ESTADO: %s\n\n", status[lista[i].status]);
+            }
+      }
+}
+
+void salvaTexto(int tam, struct lista *lista, int prioridade) {// SALVA OQUE O USUSARIO ESCREVEU
     char nome[300];
 
     printf("Digite o nome do arquivo para salvar (insira '.txt' ao final do nome): ");
@@ -121,7 +145,65 @@ void salvaTexto(int tam, struct lista *lista, int prioridade) {
 
 }
 
-void salvaCategoriaPrioeidade(int tam, struct lista *lista, int prioridade, char categoria[300]){
+int compara_sort(const void *a, const void *b) {
+    return ((struct lista*)b)->prioridade - ((struct lista*)a)->prioridade;
+}
+
+void filtraCategoria(int tam, struct lista *lista, char categoria[300]){// ESSA FUNÇÃO FILTRA E IMPRIME AS TAREFAS DE UMA LISTA DE ACORDO COM SUA CATEGORIA
+    qsort(lista, tam, sizeof(struct lista), compara_sort);
+
+    for(int i = 0; i < tam; i++){
+            if(strcmp(categoria, lista[i].categoria) == 0){
+                printf("TAREFA %d\n", i+1);
+                printf("PRIORIDADE: %d\n",lista[i].prioridade);
+                printf("CATEGORIA: %s\n",lista[i].categoria );
+                printf("DESCRICAO: %s\n",lista[i].descricao);
+                printf("ESTADO: %s\n\n", status[lista[i].status]);
+            }
+      }
+}
+
+void salvaCategoria(int tam, struct lista *lista, char categoria[300]){// SALVA A CATEGORIA ATRIBUIDA A TAREFA
+    char nome[300];
+
+    printf("Digite o nome do arquivo para salvar (insira '.txt' ao final do nome): ");
+    scanf("%s", nome);
+    FILE *arquivo = fopen(nome, "w");
+
+    fprintf(arquivo, "\n--- LISTA DE TAREFAS CATEGORIA: %s\n", categoria);
+    if(arquivo){
+        qsort(lista, tam, sizeof(struct lista), compara_sort);
+         for(int i = 0; i < tam; i++){
+            if(strcmp(categoria, lista[i].categoria) == 0){
+                fprintf(arquivo, "PRIORIDADE: %d\n",lista[i].prioridade);
+                fprintf(arquivo, "CATEGORIA: %s\n",lista[i].categoria );
+                fprintf(arquivo, "DESCRICAO: %s\n",lista[i].descricao);
+                fprintf(arquivo, "ESTADO: %s\n\n", status[lista[i].status]);
+                fprintf(arquivo, "\n");
+            }
+        }
+
+        fclose(arquivo);
+    }
+}
+
+void filtraCategoriaPrioridade(int tam, struct lista *lista, int prioridade, char categoria[300]){//ESSA FUNÇÃO FILTRA E IMPRIME A CAREGORIA DE UMA LISTA A PARTIR DA SUA PRIORIDADE
+    qsort(lista, tam, sizeof(struct lista), compara_sort);
+
+     for(int i = 0; i < tam; i++){
+
+            if((prioridade==lista[i].prioridade) && (strcmp(categoria, lista[i].categoria) == 0)){
+                printf("TAREFA %d\n", i+1);
+                printf("PRIORIDADE: %d\n",lista[i].prioridade);
+                printf("CATEGORIA: %s\n",lista[i].categoria );
+                printf("DESCRICAO: %s\n",lista[i].descricao);
+                printf("ESTADO: %s\n\n", status[lista[i].status]);
+            }
+      }
+
+}
+
+void salvaCategoriaPrioeidade(int tam, struct lista *lista, int prioridade, char categoria[300]){ //SALVA O ARQUIVO DE ACORDO COM SUAS CATEGORIAS E PRIORIDADE
      char nome[300];
 
     printf("Digite o nome do arquivo para salvar (insira '.txt' ao final do nome): ");
