@@ -12,3 +12,7 @@ struct lista{ // DEFINIÇÃO DA STRUCT DA LISTA DE TAREFAS
 
 void criaTarefa(struct lista *lt);
 void listaTarefas(int tam, struct lista *lt);
+void salvar(int tam, struct lista *lt);
+void salvaTexto(int tam, struct lista *lt, int prioridade);
+void deletaTarefa(int *tam, struct lista *lt, int posTarefa);
+void atualizaTarefa(int tam, struct lista *lista, int index);
